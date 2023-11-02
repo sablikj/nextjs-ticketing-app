@@ -8,7 +8,7 @@ const DeleteBlock = ({ id }) => {
   const router = useRouter();
 
   const deleteTicket = async () => {
-    const res = await fetch(`http://127.0.0.1:3000/api/Tickets/${id}`, {
+    const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/Tickets/${id}`, {
       method: "DELETE",
     });
 
