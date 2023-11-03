@@ -1,4 +1,7 @@
+"use client";
+
 import TicketCard from "./(components)/TicketCard";
+import { useEffect, useState } from "react";
 
 const getTickets = async () => {
   try {
@@ -9,14 +12,25 @@ const getTickets = async () => {
       }
     );
 
+    console.log("res", res);
     return res.json();
   } catch (error) {
     console.error("Failed to get tickets", error);
   }
 };
 
-const Dashboard = async () => {
-  const { tickets } = await getTickets();
+const Dashboard = () => {
+  const [tickets, setTickets] = useState([]);
+
+  //const { tickets } = await getTickets();
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTickets();
+      setTickets(data.tickets);
+    };
+    fetchData();
+  }, []);
+
   const uniqueCategories = [
     ...new Set(tickets.map(({ category }) => category)),
   ];
