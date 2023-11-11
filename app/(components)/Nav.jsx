@@ -2,15 +2,20 @@
 
 import {
   faHome,
+  faRightFromBracket,
+  faRightToBracket,
   faTicket,
   faUser,
   faUserGear,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { options } from "../api/auth/[...nextauth]/options";
 
-const Nav = () => {
+const Nav = async () => {
+  const session = await getServerSession(options);
   return (
     <nav className="flex justify-between bg-nav p-4">
       <div className="flex items-center space-x-4">
@@ -34,6 +39,15 @@ const Nav = () => {
         <Link href="/Member">
           <FontAwesomeIcon icon={faUser} className="icon" />
         </Link>
+        {session ? (
+          <Link href="/api/auth/signout?callbackUrl=/">
+            <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+          </Link>
+        ) : (
+          <Link href="/api/auth/signin">
+            <FontAwesomeIcon icon={faRightToBracket} className="icon" />
+          </Link>
+        )}
       </div>
     </nav>
   );
