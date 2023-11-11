@@ -1,6 +1,12 @@
 // (components) - folder is not included in the routing
 
-import { faHome, faTicket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faTicket,
+  faUser,
+  faUserGear,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
@@ -14,9 +20,20 @@ const Nav = () => {
         <Link href="/TicketPage/new">
           <FontAwesomeIcon icon={faTicket} className="icon" />
         </Link>
+        <Link href="/CreateUser">
+          <FontAwesomeIcon icon={faUserPlus} className="icon" />
+        </Link>
+        <Link href="/Public">
+          <p className="text-white-100">Public</p>
+        </Link>
       </div>
-      <div>
-        <p className="text-default-text">example@gmail.com</p>
+      <div className="flex items-center space-x-4">
+        <Link href="/ClientMember">
+          <FontAwesomeIcon icon={faUserGear} className="icon" />
+        </Link>
+        <Link href="/Member">
+          <FontAwesomeIcon icon={faUser} className="icon" />
+        </Link>
       </div>
     </nav>
   );
