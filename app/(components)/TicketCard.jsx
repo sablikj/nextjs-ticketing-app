@@ -4,8 +4,17 @@ import PriorityDisplay from "./PriorityDisplay";
 import ProgressDisplay from "./ProgressDisplay";
 import StatusDisplay from "./StatusDisplay";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const TicketCard = ({ ticket }) => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      return;
+    },
+  });
+  const isAdmin = session?.user?.role === "admin";
+
   const formatTimestamp = (timestamp) => {
     const option = {
       year: "numeric",
@@ -23,16 +32,30 @@ const TicketCard = ({ ticket }) => {
   };
 
   return (
-    <div className="flex flex-col bg-card hover:bg-card-hover rounded-md shadow-lg p-3 m-2">
+    <div
+      className={`${
+        isAdmin
+          ? "flex flex-col bg-card hover:bg-card-hover rounded-md shadow-lg p-3 m-2"
+          : "flex flex-col bg-card  rounded-md shadow-lg p-3 m-2"
+      }`}
+    >
       <div className="flex mb-3">
         <PriorityDisplay priority={ticket.priority} />
-        <div className="ml-auto">
-          {/* ml-auto | pushes DeleteBlock to the right */}
-          <DeleteBlock id={ticket._id} />
-        </div>
+        {isAdmin ? (
+          <div className="ml-auto">
+            {/* ml-auto | pushes DeleteBlock to the right */}
+            <DeleteBlock id={ticket._id} />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
-      <Link href={`/TicketPage/${ticket._id}`} style={{ display: "contents" }}>
+      <Link
+        className={`${isAdmin ? "cursor-pointer" : "pointer-events-none"}`}
+        href={`/TicketPage/${ticket._id}`}
+        style={{ display: "contents" }}
+      >
         {/* style={{ display: "contents" }} | makes CSS ignore the Link */}
         <h4>{ticket.title}</h4>
         <hr className="h-px border-0 bg-page mb-2" />

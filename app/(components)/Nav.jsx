@@ -16,6 +16,7 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 const Nav = async () => {
   const session = await getServerSession(options);
+  const role = session?.user.role;
   return (
     <nav className="flex justify-between bg-nav p-4">
       <div className="flex items-center space-x-4">
@@ -25,12 +26,13 @@ const Nav = async () => {
         <Link href="/TicketPage/new">
           <FontAwesomeIcon icon={faTicket} className="icon" />
         </Link>
-        <Link href="/CreateUser">
-          <FontAwesomeIcon icon={faUserPlus} className="icon" />
-        </Link>
-        <Link href="/Public">
-          <p className="text-white-100">Public</p>
-        </Link>
+        {role === "admin" ? (
+          <Link href="/CreateUser">
+            <FontAwesomeIcon icon={faUserPlus} className="icon" />
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex items-center space-x-4">
         <Link href="/ClientMember">

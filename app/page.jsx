@@ -22,7 +22,6 @@ const getTickets = async () => {
 const Dashboard = () => {
   const [tickets, setTickets] = useState([]);
 
-  //const { tickets } = await getTickets();
   useEffect(() => {
     const fetchData = async () => {
       const data = await getTickets();
